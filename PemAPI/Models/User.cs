@@ -22,7 +22,7 @@
         public string Password { get; set; }
     }
 
-    public class RequestUserModel
+    public class UserDTO
     {
         public int Id { get; set; }
 

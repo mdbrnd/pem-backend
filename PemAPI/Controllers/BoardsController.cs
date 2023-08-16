@@ -8,14 +8,13 @@ using PemAPI.Services;
 
 namespace PemAPI.Controllers
 {
-    [Route("api")]
+    [Route("api/projects")]
     [ApiController]
     public class BoardsController : BaseController
     {
         private readonly BoardsService _boardService;
         private readonly ProjectsService _projectsService;
         private readonly IssuesService _issuesService;
-
 
         public BoardsController(BoardsService boardService, ProjectsService projectsService, IssuesService issuesService)
         {
@@ -25,7 +24,7 @@ namespace PemAPI.Controllers
         }
 
         // GET: api/projects/1/boards
-        [HttpGet("projects/{projectId}/boards")]
+        [HttpGet("{projectId}/boards")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Board>>> Get(int projectId)
         {
@@ -52,7 +51,7 @@ namespace PemAPI.Controllers
 
 
         // GET api/projects/1/boards/5
-        [HttpGet("projects/{projectId}/boards/{id}")]
+        [HttpGet("{projectId}/boards/{id}")]
         [Authorize]
         public async Task<ActionResult<Board>> Get(int projectId, int id)
         {
@@ -85,7 +84,7 @@ namespace PemAPI.Controllers
 
 
         // POST api/projects/1/boards
-        [HttpPost("projects/{projectId}/boards")]
+        [HttpPost("{projectId}/boards")]
         [Authorize]
         public async Task<ActionResult<Board>> Post(int projectId, [FromBody] CreateBoardModel createBoardModel)
         {
@@ -117,7 +116,7 @@ namespace PemAPI.Controllers
 
 
         // PUT api/projects/1/boards/5
-        [HttpPut("projects/{projectId}/boards/{id}")]
+        [HttpPut("{projectId}/boards/{id}")]
         [Authorize]
         public async Task<IActionResult> Put(int projectId, int id, [FromBody] Board updatedBoard)
         {
@@ -154,7 +153,7 @@ namespace PemAPI.Controllers
 
 
         // DELETE api/projects/1/boards/5
-        [HttpDelete("projects/{projectId}/boards/{id}")]
+        [HttpDelete("{projectId}/boards/{id}")]
         [Authorize]
         public async Task<ActionResult<bool>> Delete(int projectId, int id, [FromBody] int boardIdToMoveIssuesTo)
         {
@@ -218,7 +217,7 @@ namespace PemAPI.Controllers
             var success = await _boardService.DeleteBoardAsync(id);
             if (!success)
             {
-                return NotFound(false);
+                return BadRequest(false);
             }
             return Ok(true);
         }

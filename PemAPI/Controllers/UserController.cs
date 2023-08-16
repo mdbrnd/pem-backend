@@ -41,7 +41,7 @@ namespace PemAPI.Controllers
         // GET api/users/5
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<RequestUserModel>> Get(int id)
+        public async Task<ActionResult<UserDTO>> Get(int id)
         {
             var userId = GetUserIdFromToken();
             if (userId == null)
@@ -58,13 +58,13 @@ namespace PemAPI.Controllers
                 return NotFound("User does not exist.");
             }
 
-            return Ok(new RequestUserModel { Id = user.Id, Username = user.Username, Email = user.Email});
+            return Ok(new UserDTO { Id = user.Id, Username = user.Username, Email = user.Email});
         }
 
 
         // POST api/users
         [HttpPost]
-        public async Task<ActionResult<RequestUserModel>> Post([FromBody] CreateUserModel newUserModel)
+        public async Task<ActionResult<UserDTO>> Post([FromBody] CreateUserModel newUserModel)
         {
             if (newUserModel.Email.IsNullOrEmpty() || newUserModel.Password.IsNullOrEmpty() || newUserModel.Username.IsNullOrEmpty())
             {
@@ -88,14 +88,14 @@ namespace PemAPI.Controllers
                 return BadRequest("Failed to create the user.");
             }
 
-            return Ok(new RequestUserModel { Id = newUser.Id, Username = newUser.Username, Email = newUser.Email });
+            return Ok(new UserDTO { Id = newUser.Id, Username = newUser.Username, Email = newUser.Email });
         }
 
 
         // PUT api/users/5
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<RequestUserModel>> Put(int id, [FromBody] CreateUserModel user)
+        public async Task<ActionResult<UserDTO>> Put(int id, [FromBody] CreateUserModel user)
         {
             var userId = GetUserIdFromToken();
             if (userId == null)
@@ -121,7 +121,7 @@ namespace PemAPI.Controllers
                 return BadRequest("Failed to update the user.");
             }
 
-            return Ok(new RequestUserModel { Id = updatedUser.Id, Username = updatedUser.Username, Email = updatedUser.Email });
+            return Ok(new UserDTO { Id = updatedUser.Id, Username = updatedUser.Username, Email = updatedUser.Email });
         }
 
 

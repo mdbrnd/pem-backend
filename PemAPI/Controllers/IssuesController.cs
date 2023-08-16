@@ -7,7 +7,7 @@ using PemAPI.Services;
 
 namespace PemAPI.Controllers
 {
-    [Route("api")]
+    [Route("api/projects")]
     [ApiController]
     public class IssuesController : BaseController
     {
@@ -21,7 +21,7 @@ namespace PemAPI.Controllers
         }
 
         // GET: api/projects/1/issues
-        [HttpGet("projects/{projectId}/issues")]
+        [HttpGet("{projectId}/issues")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Issue>>> Get(int projectId)
         {
@@ -47,7 +47,7 @@ namespace PemAPI.Controllers
         }
 
         // GET api/projects/1/issues/5
-        [HttpGet("projects/{projectId}/issues/{id}")]
+        [HttpGet("{projectId}/issues/{id}")]
         [Authorize]
         public async Task<ActionResult<Issue>> Get(int projectId, int id)
         {
@@ -74,7 +74,7 @@ namespace PemAPI.Controllers
 
 
         // POST api/projects/1/issues
-        [HttpPost("projects/{projectId}/issues")]
+        [HttpPost("{projectId}/issues")]
         [Authorize]
         public async Task<ActionResult<Issue>> Post(int projectId, [FromBody] CreateIssueModel createIssueModel)
         {
@@ -109,7 +109,7 @@ namespace PemAPI.Controllers
 
 
         // PUT api/projects/1/issues/5
-        [HttpPut("projects/{projectId}/issues/{id}")]
+        [HttpPut("{projectId}/issues/{id}")]
         [Authorize]
         public async Task<ActionResult<Issue>> Put(int projectId, int id, [FromBody] Issue updatedIssue)
         {
@@ -145,7 +145,7 @@ namespace PemAPI.Controllers
         }
 
         // DELETE api/projects/1/issues/5
-        [HttpDelete("projects/{projectId}/issues/{id}")]
+        [HttpDelete("{projectId}/issues/{id}")]
         [Authorize]
         public async Task<ActionResult<bool>> Delete(int projectId, int id)
         {

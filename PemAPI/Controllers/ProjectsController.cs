@@ -51,7 +51,7 @@ namespace PemAPI.Controllers
 
             if (!project.MemberUserIds.Contains((int)userId) && project.OwnerUserId != (int)userId)
             {
-                return Forbid();
+                return Forbid("User is not a member of this project.");
             }
 
             return Ok(project);
@@ -126,7 +126,7 @@ namespace PemAPI.Controllers
 
             if (!project.MemberUserIds.Contains((int)userId) && project.OwnerUserId != (int)userId)
             {
-                return Forbid();
+                return Forbid("User is not a member of this project.");
             }
 
             var success = await _projectsService.DeleteProjectAsync(id);
