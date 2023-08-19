@@ -138,6 +138,11 @@ namespace PemAPI.Controllers
                 return BadRequest("Invalid token.");
             }
 
+            if (userId == id)
+            {
+                return BadRequest("Cannot remove project owner.");
+            }
+
             var project = await _projectsService.GetProjectAsync(projectId);
             if (project == null)
             {
@@ -160,7 +165,7 @@ namespace PemAPI.Controllers
             {
                 return NotFound("User to be removed does not exist.");
             }
-
+            
             project.MemberUserIds.Remove(id);
             var success = await _projectsService.UpdateProjectAsync(project);
             if (success == null)
