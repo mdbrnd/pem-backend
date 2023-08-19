@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PemAPI.Models;
 using PemAPI.Services;
@@ -9,6 +10,7 @@ namespace PemAPI.Controllers
 {
     [Route("api/projects")]
     [ApiController]
+    [EnableCors("AllowMyOrigin")]
     public class IssuesController : BaseController
     {
         private readonly IssuesService _issueService;

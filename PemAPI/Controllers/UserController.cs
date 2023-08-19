@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PemAPI.Models;
@@ -10,6 +11,7 @@ namespace PemAPI.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [EnableCors("AllowMyOrigin")]
     public class UserController : BaseController
     {
         private readonly UserService _userService;
@@ -58,7 +60,7 @@ namespace PemAPI.Controllers
                 return NotFound("User does not exist.");
             }
 
-            return Ok(new UserDTO { Id = user.Id, Username = user.Username, Email = user.Email});
+            return Ok(new UserDTO { Id = user.Id, Username = user.Username, Email = user.Email });
         }
 
 
@@ -103,7 +105,8 @@ namespace PemAPI.Controllers
                 return BadRequest("Invalid token.");
             }
 
-            if (user.Email.IsNullOrEmpty() || user.Password.IsNullOrEmpty() ||user.Username.IsNullOrEmpty()) {
+            if (user.Email.IsNullOrEmpty() || user.Password.IsNullOrEmpty() || user.Username.IsNullOrEmpty())
+            {
                 return BadRequest("Empty parameters");
             }
 

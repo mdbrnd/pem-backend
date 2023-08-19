@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using PemAPI.Models;
@@ -10,6 +11,7 @@ namespace PemAPI.Controllers
 {
     [Route("api/projects")]
     [ApiController]
+    [EnableCors("AllowMyOrigin")]
     public class ProjectMemberController : BaseController
     {
         private readonly UserService _userService;
@@ -49,7 +51,7 @@ namespace PemAPI.Controllers
                 var user = await _userService.GetUserAsync(userid);
                 if (user != null)
                 {
-                    members = members.Append(new UserDTO { Id = user.Id, Username = user.Username, Email = user.Email});
+                    members = members.Append(new UserDTO { Id = user.Id, Username = user.Username, Email = user.Email });
                 }
             }
 
@@ -165,7 +167,7 @@ namespace PemAPI.Controllers
             {
                 return NotFound("User to be removed does not exist.");
             }
-            
+
             project.MemberUserIds.Remove(id);
             var success = await _projectsService.UpdateProjectAsync(project);
             if (success == null)

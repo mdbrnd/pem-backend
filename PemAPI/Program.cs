@@ -15,6 +15,15 @@ namespace PemAPI
 
             // Add services to the container.
 
+            // Add CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigin",
+                builder => builder.WithOrigins("http://localhost:5173")
+                              .AllowAnyMethod()
+                              .AllowAnyHeader());
+            });
+
             // Configure PostgreSQL with Entity Framework Core
             builder.Services.AddDbContext<PemDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -58,6 +67,8 @@ namespace PemAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowMyOrigin");
 
             app.UseHttpsRedirection();
 

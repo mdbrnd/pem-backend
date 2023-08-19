@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 using PemAPI.Models; // Assumes you have a User model here
 using PemAPI.Services;
 using System.Configuration;
+using Microsoft.AspNetCore.Cors;
 
 [Route("api/")]
 [ApiController]
+[EnableCors("AllowMyOrigin")]
 public class AuthController : ControllerBase
 {
     private readonly UserService _dbService;

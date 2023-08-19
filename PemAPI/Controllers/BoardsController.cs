@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using PemAPI.Models;
@@ -10,6 +11,7 @@ namespace PemAPI.Controllers
 {
     [Route("api/projects")]
     [ApiController]
+    [EnableCors("AllowMyOrigin")]
     public class BoardsController : BaseController
     {
         private readonly BoardsService _boardService;
@@ -207,7 +209,7 @@ namespace PemAPI.Controllers
                 {
                     issue.BoardId = boardIdToMoveIssuesTo;
                     var didSuccessfullyDeleteIssue = await _issuesService.UpdateIssueAsync(issue);
-                    if (didSuccessfullyDeleteIssue == null) 
+                    if (didSuccessfullyDeleteIssue == null)
                     {
                         return StatusCode(500, "Could not move issue to other board");
                     }
