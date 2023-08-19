@@ -64,7 +64,11 @@ public class AuthController : ControllerBase
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
 
-            return Ok(new { token });
+            return Ok(new
+            {
+                message = $"Welcome Back, {user.Username}!",
+                token = token
+            });
         }
 
         return Unauthorized(new { message = "Invalid credentials" });
