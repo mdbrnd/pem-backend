@@ -66,6 +66,8 @@ public class AuthController : ControllerBase
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
 
+            // TODO: add username and expiresIn
+
             return Ok(new
             {
                 message = $"Welcome Back, {user.Username}!",
