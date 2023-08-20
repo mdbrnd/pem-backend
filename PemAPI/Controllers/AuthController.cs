@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(string email, string password)
+    public async Task<ActionResult<LoginResponseModel>> Login(string email, string password)
     {
         var secretKey = _configuration["Jwt:Key"];
         var issuer = _configuration["Jwt:Issuer"];
@@ -50,6 +50,9 @@ public class AuthController : ControllerBase
                 return Unauthorized(new { message = "Invalid credentials" });
             }
 
+            int hoursExpiresIn = 24 * 30;
+            DateTime expiresWhen = DateTime.UtcNow.AddHours(hoursExpiresIn);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -58,7 +61,7 @@ public class AuthController : ControllerBase
                 }),
                 Issuer = issuer,
                 Audience = audience,
-                Expires = DateTime.UtcNow.AddHours(24 * 30),
+                Expires = expiresWhen,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -66,13 +69,7 @@ public class AuthController : ControllerBase
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
 
-            // TODO: add username and expiresIn
-
-            return Ok(new
-            {
-                message = $"Welcome Back, {user.Username}!",
-                token = token
-            });
+            return Ok(new LoginResponseModel { Id = user.Id, Email = user.Email, Username = user.Username, Token = token, expiresInSeconds = hoursExpiresIn * 60 * 60});
         }
 
         return Unauthorized(new { message = "Invalid credentials" });
